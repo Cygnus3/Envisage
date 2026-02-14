@@ -1,0 +1,96 @@
+import os
+
+file_name = "tasks_manager"
+
+tasks = []
+
+def check() : 
+    global tasks
+    if os.path.exists(file_name):
+        with open(file_name, "r") as file:
+            tasks = [line.strip() for line in file.readlines()]
+        print("Tasks loaded successfully")
+    else:
+        print("No saved file found")
+
+
+def save():
+    with open(file_name,"w") as file:
+        for each in tasks :
+            file.write(each +"\n")
+    print("Task saved successfully")
+
+def add(): 
+    task = input("What's the task for today? \n")
+    tasks.append(task)
+    print("Task added")
+
+def show():
+    if not tasks:
+        print("no tasks have been added")
+        return
+    
+    print("your tasks:\n")
+    for i, task in enumerate(tasks, start=1):
+        print(f"{i}.{task} \n")
+
+def remove():
+    show()
+    if not tasks:
+        print("unavailable")
+        return
+    
+    try: 
+        n = int(input("Enter the number of the task you would like to remove : "))
+        print(f"Removed : {tasks[n-1]}")
+        tasks.pop(n-1)
+    except (ValueError, IndexError):
+        print("Invalid number.")
+
+
+def menu():
+    print("\n--- CLI Task Manager ---")
+    print("1. Add Task")
+    print("2. Remove Task")
+    print("3. Show Tasks")
+    print("4. Save to File")
+    print("5. Load from File")
+    print("6. Exit")
+
+def main():
+    
+    check()
+
+    while True:
+        menu()
+        choice = input("Enter your choice (1-6): ")
+
+        if choice == "1":
+            add()
+
+        elif choice == "2":
+            remove()
+
+        elif choice == "3":
+            show()
+
+        elif choice == "4":
+            save()
+
+        elif choice == "5":
+            check()
+
+        elif choice == "6":
+            save()
+            print("done")
+            break
+
+        else:
+            print("Invalid")
+
+
+if __name__ == "__main__":
+    main()
+        
+
+   
